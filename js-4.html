@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>javascript task 04</title>
+    <style type="text/css">
+        li{
+            display:inline-block;
+            background-color:palevioletred;
+            font-size:16px;
+            text-align:center;
+            padding:10px;
+            margin:10px;
+            cursor:pointer;
+        }
+     </style>
+
+</head>
+<body>
+       <input type="text" id="inNum" name="number">
+       <button id="btnLeftIn">左侧入</button>
+       <button id="btnRightIn">右侧入</button>
+       <button id="btnLeftOut">左侧出</button>
+       <button id="btnRightOut">右侧出</button>
+       <!--数字队列-->
+       <ul id="outNum"></ul>
+
+        <script type="text/javascript">
+            var inNum =document.getElementById("inNum");
+            var outNum =document.getElementById("outNum");
+            var btnLeftIn = document.getElementById("btnLeftIn");
+            var btnRightIn = document.getElementById("btnRightIn");
+            var btnLeftOut = document.getElementById("btnLeftOut");
+            var btnRightOut = document.getElementById("btnRightOut");
+            function insert(direction){
+                if(inNum.value==""){
+                    alert("请输入数字！");
+                    inNum.focus();
+                }
+                else if(isNaN(inNum.value)){
+                    alert("只能输入数字！");
+                    inNum.value = "";
+                    inNum.focus();
+                }
+                else{
+                    var oli=document.createElement("li");
+                    oli.innerHTML=inNum.value;
+                    if(direction == "left"){
+                        outNum.insertBefore(oli,outNum.firstChild);//将生成的li元素从前方插入
+                    }
+                    else if(direction == "right"){//点击从右侧插入
+                        outNum.appendChild(oli);//将生成的li元素从末尾放入
+                    }
+                }
+                
+            }
+            //删除数字
+            function del(node,direction){
+                if(outNum.childNodes.length<=0){
+                    alert("不存在元素可以删除");
+                    return false;
+                }
+                else{
+                    if(direction==="left"){
+                        alert("删除数字："+ outNum.firstChild.innerText + "!");
+                        outNum.removeChild(outNum.firstChild);
+                    }
+                   else if(direction === "right"){
+                        alert("删除数字："+ outNum.lastChild.innerText + "!");
+                        outNum.removeChild(outNum.lastChild);
+                    }
+                    else{
+                        alert("删除数字："+ outNum.removeChild(node).innerText + "!");
+                    }
+                }
+            }
+            //按钮
+            btnLeftIn.onclick = function () {insert ("left");};
+            btnRightIn .onclick = function () {insert("right");};
+            btnLeftOut.onclick = function () {del(-1,"left");};
+            btnRightOut.onclick = function () {del(-1,"right");};
+            outNum.onclick = function () {del(event.target)};
+
+
+
+        </script>
+
+</body>
+</html>
