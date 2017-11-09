@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>javascript task 05</title>
+    <style type="text/css">
+        input{
+            font-size: 16px;
+        }
+        button{
+            background-color: rgba(60, 63, 65, 0.32);
+            font-size:16px;
+            text-align: center;
+            margin:10px;
+        }
+        ul li{
+            display:inline-block;
+            background-color: chocolate;
+            width:20px;
+            margin: 1px;
+            list-style: none;
+            position: relative;
+            bottom: 0;
+        }
+        .output li:hover{
+            background-color: #8d54d8;
+        }
+
+    </style>
+</head>
+<body>
+     <input type="text" id = "input" />
+     <button id = "btnLeftIn">左侧输入</button>
+     <button id = "btnRightIn">右侧输入</button>
+     <button id = "btnLeftOut">左侧输出</button>
+     <button id = "btnRightOut">右侧输出</button>
+     <!--数字队列-->
+     <ul id = "output"></ul>
+
+     <button id="sort">排序</button>
+
+
+      <script type = "text/javascript">
+
+          num=1;
+          function qua(obj){
+              var input = document.getElementById("input");
+              var text = input.value;
+              if(!text || (text<=0)||(text>100)|| (isNaN(text))){
+                  alert("请输入0-100之间的数字！");
+                  return 0;
+              }
+
+              if(num>60){
+                  alert("输入的元素已超过60！");
+                  return 0;
+              }
+              var element = document.createElement("li");
+              if(obj.id === "btnLeftIn"){
+                  output.insertBefore(element,output.firstChild);
+              }
+              else{
+                  output.appendChild(element);
+              }
+              element.style.height = text + "px";
+              num++;
+          }
+
+
+          var output =document.getElementById("output");
+          var btnLeftIn = document.getElementById("btnLeftIn");
+          var btnRightIn = document.getElementById("btnRightIn");
+          var btnLeftOut = document.getElementById("btnLeftOut");
+          var btnRightOut = document.getElementById("btnRightOut");
+
+          btnLeftIn.onclick = function () {
+              qua(this);
+          };
+          btnRightIn.onclick = function () {
+              qua(this);
+          };
+          btnLeftOut.addEventListener("click",function () {
+              if(!output.children[0]){
+                  alert("队列已空！");
+                  return 0;
+              }
+              var first =output.removeChild(output.children[0]);
+              text = parseInt(first.style.height);
+              alert("删除 "+text+" ?");
+              num--;
+          },false);
+          btnRightOut.onclick = function () {
+              if(!output.children[output.children.length-1]){
+                  alert("队列已空！");
+                  return 0 ;
+              }
+              var last = output.removeChild(output.children[output.children.length-1]);
+              text = parseInt(last.style.height);
+              alert("删除 "+text+" ?");
+              num--;
+          };
+
+          var li = output.getElementsByTagName("li");
+
+          output.onmouseover = function () {
+              for (var i in li){
+                  li[i].index = i;
+                  li[i].onclick = function () {
+                      text = parseInt(output.children[this.index].style.height);
+                      alert("删除 "+text+" ?");
+                      output.removeChild(output.children[this.index]);
+                      num--;
+                  }
+              }
+          };
+
+          var sort = document.getElementById("sort");
+
+          sort.onclick = function () {
+              if(li.length >= 1){
+                  quickSort(li,0,li.length-1);
+              }
+          };
+          function quickSort(a,lo,hi) {
+              if(lo < hi){
+                  var j = partition(a,lo,hi);
+                  quickSort(a,lo,j-1);
+                  quickSort(a,j+1,hi);
+              }
+          }
+          function partition(a,lo,hi) {
+              var i = lo,j = hi;
+              var v = parseInt(a[lo].style.height);
+              while(i<j){
+                  while(v >= parseInt(a[i].style.height)){
+                      ++i;
+                      if(i === hi){
+                          break;
+                      }
+                  }
+                  while(v <= parseInt(a[j].style.height)){
+                      --j;
+                      if(j === lo){
+                          break;
+                      }
+                  }
+                  if(i>j){
+                      break;
+                  }
+                  var temp = a[i].style.height;
+                  a[i].style.height = a[j].style.height;
+                  a[j].style.height=temp;
+              }
+              a[lo].style.height = a[j].style.height;
+              a[j].style.height = v + "px";
+              return j;
+          }
+
+
+
+
+
+
+      </script>
+</body>
+</html>
